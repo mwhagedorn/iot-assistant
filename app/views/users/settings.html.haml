@@ -12,10 +12,6 @@
       .controls
         = check_box_tag 'print_calendar', 'true', current_user.print_calendar
     .control-group
-      %label.control-label{:for => "print_email"} Email
-      .controls
-        = check_box_tag 'print_email', 'true', current_user.print_email
-    .control-group
       %label.control-label{:for => "print_qotd"} Fortune Cookie
       .controls
         = check_box_tag 'print_qotd', 'true', current_user.print_qotd, :disabled => which("fortune") ? false : true
@@ -25,7 +21,7 @@
       %label.control-label{:for => "print_stories"}  Recent Stories
       .controls
         = check_box_tag 'print_stories', 'true', current_user.print_stories
-    - if current_user.twitter_token
+    - if current_user.twitter_token && APP_CONFIG[:twitter][:key] && APP_CONFIG[:twitter][:key]
       .control-group
         %label.control-label{:for => "print_twitter_timeline"} Twitter Timeline
         .controls
