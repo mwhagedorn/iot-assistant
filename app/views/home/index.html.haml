@@ -9,5 +9,5 @@
 %h3.lead I've printed #{@total} #{"time".pluralize(@total)}, and I've got #{@to_print} #{"thing".pluralize(@to_print)} to print!
 
 
-= link_to "Print me something!", print_path, :method => "post", :class => "btn btn-primary btn-large", :confirm => "Are you sure? Remember the environment!"
+= link_to "Print me something!", print_path, :method => "post", :class => "btn btn-primary btn-large"
 = link_to "Show me a preview", preview_path, :class => "btn btn-info btn-large"

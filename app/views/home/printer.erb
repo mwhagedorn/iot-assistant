@@ -1,13 +1,12 @@
 <%- #                             # <- 32 char mark -%>
 bl <%= greeting -%> <%= user.firstname %>
-nl
+
 nl Here's your printout from
 nl <%= Time.zone.now.strftime("%m/%d at %H:%M") %>
-nl
 uc Task summary
 <%- if user.task_summary -%>
 nl
-nl You have <%= pluralize(user.task_summary.count, 'uncompleted tasks') %>.
+nl You have <%= pluralize(user.task_summary.count, 'tasks') %>.
 <%- user.uncompleted_tasks[0...5].each do |task| -%>
 <%= raw(wrap("nl", raw( truncate_words(task.title)))) %>
 <%end%>
@@ -26,6 +25,7 @@ nl
 <%- if @agenda.blank? -%>
 nl You have nothing on your agenda.
 nl Relax, read a book, write code.
+
 nl
 <%- end -%>
 <%- @agenda.each do |event| -%>
