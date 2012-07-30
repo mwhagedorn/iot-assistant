@@ -2,6 +2,7 @@
 bl <%= greeting -%> <%= user.firstname %>
 nl Here's your printout from
 nl <%= Time.zone.now.strftime("%m/%d at %H:%M") %>
+nl
 uc Task summary
 <%- if user.task_summary -%>
 nl You have <%= pluralize(user.task_summary.count, 'tasks') %>.
