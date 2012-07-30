@@ -22,17 +22,18 @@ class SessionsController < ApplicationController
       user = User.new
       user.assign_attributes({uid: auth["uid"],
                              name: auth["info"]["name"],
-                             firstname: auth["info"]["first_name"],
+                             firstname: auth["info"]["name"],
                              surname: auth["info"]["last_name"],
                              email: auth["info"]["email"],
                              image: auth["info"]["image"],
                              token: auth["credentials"]["token"],
-                             refresh_token: auth["credentials"]["refresh_token"],
-                             expires_at: Time.at(auth["credentials"]["expires_at"])}, :as => :admin)
+                             refresh_token: auth["credentials"]["refresh_token"]}, :as => :admin)
       if user.save
         session[:user_id] = user.id
         redirect_to root_url, notice: "Hello #{user.firstname}, nice to meet you!"
       else
+        puts user.errors.full_messages
+        puts auth
         redirect_to login_path, notice: "Sorry, something went wrong"
       end
     else

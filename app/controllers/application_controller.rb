@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   # if they are logged in.
   def authorized!
     redirect_to login_path, alert: "You must be logged in to view that!" and return unless current_user
-    unless current_user.refresh_token
+    unless current_user.token
       redirect_to login_path, alert: "Missing token, please log in again." 
       session[:user_id] = nil
       return

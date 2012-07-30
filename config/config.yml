@@ -15,7 +15,7 @@ defaults: &defaults
 
   # Change this to a unique, random value that would be valid in a URL. Keep it
   # secret!
-  :printer_key: <%= ENV["PRINTER_KEY"] || "please-specify-a-printer-key" %>
+  :printer_key: <%= ENV["PRINTER_KEY"] || "abc123" %>
 
 development:
   <<: *defaults

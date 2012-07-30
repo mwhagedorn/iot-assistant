@@ -45,7 +45,7 @@ module ApplicationHelper
 
   # Public: Fetch recent stories from The Times
   def recent_stories(count=3)
-    response = Typhoeus::Request.get("http://www.thetimes.co.uk/tto/news/rss")
+    response = Typhoeus::Request.get("http://www.freep.com/apps/pbcs.dll/section?category=news&template=rss&mime=xml")
     if response.success?
       doc = Nokogiri::XML.parse(response.body)
       doc.css("item").map{|story| story.at_css("title").text}.slice(0,count)

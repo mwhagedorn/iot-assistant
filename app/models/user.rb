@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 
   validates :uid, :uniqueness => true
 
-  validates :refresh_token, :expires_at, :presence => true
+  #validates :refresh_token, :presence => true
 
   validates :firstname, :time_zone, :presence => true
 
@@ -32,7 +32,9 @@ class User < ActiveRecord::Base
   # Returns an array of calendarList Resources (as Hashie Mashes)
   def remote_calendars
     return @remote_calendars if @remote_calendars
-    response = google_request("https://www.googleapis.com/calendar/v3/users/me/calendarList")
+    #response = google_request("https://www.googleapis.com/calendar/v3/users/me/calendarList")
+    #my version
+    response = wrap_response(hpcloud.calendar_list)
     if response.success?
       @remote_calendars = Hashie::Mash.new(JSON.parse(response.body)).items
     else
@@ -64,7 +66,8 @@ class User < ActiveRecord::Base
     return false unless self.calendars
     events = []
     self.calendars.each do |id, summary|
-      response = google_request("https://www.googleapis.com/calendar/v3/calendars/#{id}/events", :params => {"orderBy" => "startTime", "maxResults" => 10, "singleEvents" => true, "timeMin" => min || nil, "timeMax" => max || nil}) 
+      #response = google_request("https://www.googleapis.com/calendar/v3/calendars/#{id}/events", :params => {"orderBy" => "startTime", "maxResults" => 10, "singleEvents" => true, "timeMin" => min || nil, "timeMax" => max || nil})
+      response = wrap_response(hpcloud.calendar_file)
       if response.success?
         (Hashie::Mash.new(JSON.parse(response.body))["items"] || []).each do |item|
           item[:calendar] = summary
@@ -88,17 +91,27 @@ class User < ActiveRecord::Base
     return false
   end
 
-  # Public: Fetch the user's emails
+  # Public: Fetch the user's tasks
   #
   # Returns Nokogiri document or false if the request failed.
-  def mail_summary
-    return @mail_summary if @mail_summary
-    response = google_request("https://mail.google.com/mail/feed/atom")
+  def task_summary
+    return @task_summary if @task_summary
+    tasks = []
+    #response = google_request("https://mail.google.com/mail/feed/atom")
+    response  = wrap_response(hpcloud.tasks_file)
     if response.success?
-      @mail_summary = Nokogiri::XML(response.body)
+      (Hashie::Mash.new(JSON.parse(response.body))["task_list"] || []).each do |item|
+          tasks << item
+        end
     else
       return false
     end
+
+    tasks
+  end
+
+  def uncompleted_tasks
+    task_summary
   end
 
   # Public: Using the mail summary, work out how many emails are unread.
@@ -144,8 +157,7 @@ class User < ActiveRecord::Base
   #
   # Returns the Typhoeus::Response object corresponding to the request.
   def google_request(url, options={})
-    
-    if self.expires_at <= Time.now
+    if self.expires_at && self.expires_at <= Time.now
       get_new_access_token
     end
     options[:headers] ||= {}
@@ -205,6 +217,14 @@ class User < ActiveRecord::Base
     if User.count == 0
       self.admin = true
     end
+  end
+
+private
+  def hpcloud
+    @hpcloud ||= HPObjectStorage.new
+  end
+  def wrap_response(response)
+    Hashie::Mash.new(:success? => true, :body => response.body)
   end
 
 end

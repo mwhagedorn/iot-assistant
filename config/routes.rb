@@ -1,8 +1,8 @@
 IotPrinterFront::Application.routes.draw do
 
   # Omniauth
-  match "/auth/google/callback" => "sessions#create"
-  match "/auth/twitter/callback" => "users#twitter_callback"
+  #match "/auth/google/callback" => "sessions#create"
+  match "/auth/twitter/callback" => "sessions#create"
   match "/auth/failure" => "sessions#failure"
 
   # Preview
@@ -22,7 +22,8 @@ IotPrinterFront::Application.routes.draw do
   resources :printouts, :only => [:index, :show, :destroy]
 
   # Printer endpoint
-  get "/printer/#{APP_CONFIG[:printer_key]}" => "home#printer", :as => "printer"
+  #get "/printer/#{APP_CONFIG[:printer_key]}" => "home#printer", :as => "printer"
+  get "/printer/abc123" => "home#printer", :as => "printer"
 
   # Print-on-demand.
   post "/print" => "home#print"

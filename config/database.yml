@@ -1,14 +1,19 @@
-development:
+common: &common
   adapter: postgresql
-  database: iot_printer_front_development
+  username: iot_printer_front
+  password: 2much2do
   pool: 5
   timeout: 5000
+
+development:
+  <<: *common
+  database: iot_printer_front_development
 
 test:
-  adapter: postgresql
+  <<: *common
   database: iot_printer_front_test
-  pool: 5
-  timeout: 5000
 
 production:
-  # Set your production DB here. If deploying to Heroku leave blank.
+  <<: *common
+  database: iot_printer_front_production
+
