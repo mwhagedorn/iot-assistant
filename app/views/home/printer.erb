@@ -1,11 +1,9 @@
 <%- #                             # <- 32 char mark -%>
 bl <%= greeting -%> <%= user.firstname %>
-
 nl Here's your printout from
 nl <%= Time.zone.now.strftime("%m/%d at %H:%M") %>
 uc Task summary
 <%- if user.task_summary -%>
-nl
 nl You have <%= pluralize(user.task_summary.count, 'tasks') %>.
 <%- user.uncompleted_tasks[0...5].each do |task| -%>
 <%= raw(wrap("nl", raw( truncate_words(task.title)))) %>
@@ -13,6 +11,7 @@ nl You have <%= pluralize(user.task_summary.count, 'tasks') %>.
 <%- else -%>
 nl I couldn't fetch your task information.
 <%- end -%>
+<%if false%>
 nl
 <%- if user.print_calendar -%>
 <%- @agenda = user.todays_agenda -%>
@@ -25,7 +24,6 @@ nl
 <%- if @agenda.blank? -%>
 nl You have nothing on your agenda.
 nl Relax, read a book, write code.
-
 nl
 <%- end -%>
 <%- @agenda.each do |event| -%>
@@ -66,3 +64,5 @@ nl
 uc Fortune cookie
 <%= raw(wrap("nl", raw(fortune.split("\n").join(" ")))) -%>
 <%- end -%>
+
+<%end%>
