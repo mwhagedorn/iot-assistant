@@ -12,11 +12,11 @@ gem 'twitter'
 
 gem 'haml-rails'
 
-gem 'thin-rails'
-
 gem 'hashie'
 
 gem 'fog'
+
+gem "unicorn"
 
 # Gems used only for assets and not required
 # in production environments by default.
