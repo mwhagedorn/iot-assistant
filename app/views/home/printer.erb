@@ -12,7 +12,6 @@ nl You have <%= pluralize(user.task_summary.count, 'tasks') %>.
 <%- else -%>
 nl I couldn't fetch your task information.
 <%- end -%>
-<%if false%>
 <%- if user.print_calendar -%>
 <%- @agenda = user.todays_agenda -%>
 nl .
@@ -64,5 +63,3 @@ nl .
 uc Fortune cookie
 <%= raw(wrap("nl", raw(fortune.split("\n").join(" ")))) -%>
 <%- end -%>
-
-<%end%>
