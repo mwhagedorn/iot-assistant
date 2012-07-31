@@ -1,0 +1,7 @@
+{
+    "tasks": [
+        <%- user.uncompleted_tasks[0...4].each do |task| -%>
+            { "name":"<%= task.title %>" },
+        <%end%>
+    ]
+}

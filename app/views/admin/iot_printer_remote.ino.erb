@@ -177,11 +177,7 @@ boolean parse() {
       Serial.println(value);
       Serial.println("");
       // Print it
-      if (style == 'n') {
-        printer.println(value);
-      } else {
-        printer.print(value);
-      }
+      printer.println(value);
       // Reset printer values
       switch(style) {
         case 'b':

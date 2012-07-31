@@ -13,7 +13,9 @@ class HomeController < ApplicationController
     if current_user.count_print_options == 0
       redirect_to root_path, :alert => "Specify that you want something to print!" and return
     end
-    printout = current_user.printouts.create(content: render_to_string("home/printer.erb", :layout => false, :locals => {:user => current_user}))
+    printout = current_user.printouts.create(content: render_to_string("home/printer.erb", :layout => false, :locals => {:user => current_user}), :mime_type=>"text/plain")
+    printout.save!
+    printout = current_user.printouts.create(content: render_to_string("home/display.json.erb", :layout => false, :locals => {:user => current_user}), :mime_type=>"application/json")
     printout.save!
     redirect_to root_path, :notice => "Your printout has been queued!"
   end
@@ -28,8 +30,15 @@ class HomeController < ApplicationController
   def printer
     # Check for scheduled prints
     ScheduledPrints.new.run
-
-    printout = Printout.where(printed: false).first
+    printout = nil
+    respond_to do |format|
+      format.iot_printer do
+        printout = Printout.where(printed: false).where(mime_type: "text/plain").first
+      end
+      format.iot_display do
+        printout = Printout.where(printed: false).where(mime_type: "application/json").first
+      end
+    end
     if printout
       printout.update_attribute(:printed, true)
       render :text => printout.content

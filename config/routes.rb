@@ -23,7 +23,10 @@ IotPrinterFront::Application.routes.draw do
 
   # Printer endpoint
   #get "/printer/#{APP_CONFIG[:printer_key]}" => "home#printer", :as => "printer"
-  get "/printer/abc123" => "home#printer", :as => "printer"
+  get "/printer/#{APP_CONFIG[:printer_key]}" => "home#printer", :as => "display", :user_agent => /IOTDisplay/, :format => :iot_display
+  get "/printer/#{APP_CONFIG[:printer_key]}" => "home#printer", :as => "printer", :user_agent => /IOTPrinter/, :format => :iot_printer
+  get "/printer/#{APP_CONFIG[:printer_key]}" => "home#printer", :as => "printer", :format => :iot_printer
+
 
   # Print-on-demand.
   post "/print" => "home#print"
