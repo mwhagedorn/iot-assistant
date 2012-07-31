@@ -71,6 +71,7 @@ class User < ActiveRecord::Base
       if response.success?
         (Hashie::Mash.new(JSON.parse(response.body))["items"] || []).each do |item|
           item[:calendar] = summary
+          logger.debug "pushing event #{item}"
           events << item
         end
       else
