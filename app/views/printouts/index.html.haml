@@ -6,12 +6,14 @@
   %tr
     %th Who
     %th When
+    %th Type
     %th Printed?
     %th
   - @printouts.each do |printout|
     %tr
       %td= printout.user ? printout.user.name : "Deleted user"
       %td= printout.created_at.in_time_zone current_user.time_zone
+      %td= printout.mime_type
       %td= printout.printed ? "Yes" : "No"
       %td
         - if current_user and printout.user == current_user
