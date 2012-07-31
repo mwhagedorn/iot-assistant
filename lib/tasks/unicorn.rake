@@ -3,7 +3,7 @@ namespace :unicorn do
   desc "Start unicorn"
   task(:start) {
     config = "#{Rails.root}/config/unicorn.rb"
-    sh "cd #{Rails.root}; bundle exec unicorn_rails --daemonize --config-file #{config} -E production"
+    sh "cd #{Rails.root}; unicorn_rails --daemonize --config-file #{config} -E production"
     p "Unicorn started"
   }
 
