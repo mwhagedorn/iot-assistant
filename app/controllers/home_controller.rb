@@ -36,7 +36,7 @@ class HomeController < ApplicationController
         printout = Printout.where(printed: false).where(mime_type: "text/plain").first
       end
       format.iot_display do
-        printout = Printout.where(printed: false).where(mime_type: "application/json").first
+        printout = Printout.where(mime_type: "application/json").first
       end
     end
     if printout
