@@ -6,7 +6,7 @@
     ],
     "news":[
         <%- recent_stories.each do |story| -%>
-            { "name":"<%= truncate_words(ascii(task.title),8) %>" },
+            { "name":"<%= truncate_words(ascii(story),8) %>" },
         <%end%>
     ]
 }
