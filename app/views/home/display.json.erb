@@ -1,12 +1,12 @@
 {
     "tasks": [
         <%- user.uncompleted_tasks[0...4].each do |task| -%>
-            { "name":"<%= task.title %>" },
+            { "name":"<%= truncate_words(ascii(task.title),8) %>" },
         <%end%>
     ],
     "news":[
         <%- recent_stories.each do |story| -%>
-                   { "name":"<%= ascii(story) %>" },
+            { "name":"<%= truncate_words(ascii(task.title),8) %>" },
         <%end%>
     ]
 }
