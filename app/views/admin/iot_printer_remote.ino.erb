@@ -118,6 +118,7 @@ void loop() {
     client.print(url);
     client.print(" HTTP/1.1\r\nHost: ");
     client.println(serverName);
+    client.println("User-Agent:IOTPrinter");
     client.println("Connection: close\r\n");
 
     Serial.print("OK\r\nAwaiting results (if any)...");
